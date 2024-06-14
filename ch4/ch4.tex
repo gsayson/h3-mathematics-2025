@@ -1,0 +1,160 @@
+\chapter{Introduction to limits}
+The concept of a limit is extremely fundamental to the understanding of calculus, namely differentiation
+and integration; their formal definitions are in terms of limits. Here, we will introduce limits for
+sequences and functions, their arithmetic operations, the squeeze theorem, L'Hopital's rule, and
+apply it to formally defining the derivative.
+
+\section{Limits of sequences and functions}
+
+\subsection{Limits of sequences}
+Suppose we have a sequence
+\[
+a_1,a_2,a_3,a_4,...
+\]
+If the term $a_n$ converges to a fixed value $L$ as $n$ tends to infinity, then we write
+\[
+\lim_{n \to \infty} a_n = L
+\]
+This is read as ``the \textit{limit} of the sequence ${a_n}$ as $n$ tends to infinity is $L$''.
+
+This concept of a limit can be stated with the following definition:
+\begin{definition}
+    If, for any arbitrarily small positive number $\epsilon$, one can always find a term in a sequence ${a_n}$
+    such that $|a_n - L| < \epsilon$ if $n > N(\epsilon)$, and $N(\epsilon)$ is a function of $\epsilon$.
+\end{definition}
+
+A more advanced treatment of limits, and how the above definition can prove common limits, can be found in
+\cite{Gong_2017}.
+
+Take note that there are sequences which diverge (i.e. they do not converge). Consider the harmonic series,
+where the $n$-th term is \[H_n = \sum_{k = 1}^n \frac{1}{k}\] Although it increases slowly, it can be proven
+that \[\lim_{n \to \infty} H_n = \infty\] This proof is left as an exercise to the reader.
+
+\subsection{Limits of functions}
+Similar to the above interpretation of limits to sequences, suppose that we have a function
+$f(x)$. If $f(x)$ approaches $L$ as $x$ tends to $c$ from both sides (i.e., from $-\infty$, and from $\infty$),
+then $\lim_{x \to c} f(x) = L$.
+
+\begin{example}
+    Find the limit $\lim_{x \to \infty} \frac{1}{x}$.
+\end{example}
+\begin{solution}
+    The limit is \[\lim_{x \to \infty} \frac{1}{x} = 0.\]
+\end{solution}
+
+A function $f(x)$ is said to be continuous at $x = c$, if $\lim_{x \to c} = f(c)$.
+
+\section{Operations of limits}
+Suppose that $\lim_{x \to c} f(x) = A$ and $\lim_{x \to c} g(x) = B$ for the functions $f(x)$, $g(x)$,
+and $A,B$ are constants. Then:
+\[
+\lim_{x \to c} (f(x) \pm g(x)) = A \pm B,
+\]
+\[
+\lim_{x \to c} (f(x) g(x)) = A B,
+\]
+\[
+\lim_{x \to c} \left(\frac{f(x)}{g(x)}\right)  = \frac{A}{B},\,\,B\ne 0,
+\]
+\[
+\lim_{x \to c} kf(x) = k\lim_{x \to c} f(x) = kA,\,\,k\,\,\text{is a constant.}
+\]
+
+\begin{example}
+    Find the limit of $k e^{-x}$, as $x$ tends to infinity. 
+\end{example}
+\begin{solution}
+    The limit is \[\lim_{x \to \infty} k e^{-x} = k \lim_{x \to -\infty} e^{-x} = k \times 0 = 0.\]
+    One can study the behavior of $e^{-x}$ graphically.
+\end{solution}
+
+\section{The squeeze theorem}
+The squeeze theorem is extremely useful in determining important limits; in fact, it is key to proving the
+derivative of $\sin(x)$ (with respect to $x$). Hence, we begin with a statement of the theorem.
+
+\begin{theorem}[Squeeze theorem]\thlabel{squeeze}
+    Suppose that we have three functions $f(x), g(x), h(x)$ such that $g(x)\le f(x)\le h(x)$. Then
+    \[
+    \lim_{x \to c} g(x) = \lim_{x \to c} h(x) = L \implies \lim_{x \to c} f(x) = L
+    \]
+    where $c$ is a constant.
+\end{theorem}
+\begin{proof}
+    The proof can be found on Wikipedia.
+    % It is beyond the scope of this book.
+\end{proof}
+
+Now, we begin with some examples.
+
+\begin{example}
+    Find the limit \[\lim_{x \to 0}x^2\sin\left(\frac{1}{x}\right).\]
+\end{example}
+\begin{solution}
+    We cannot apply the law
+    \[
+    \lim_{x \to c} (f(x) g(x)) = A B
+    \]
+    because $\lim_{x \to 0} \sin\left(\frac{1}{x}\right)$ does not exist. However, since the range of $\sin(x)$
+    is $[-1, 1]$, we can establish the inequality \[-1 \le \sin\left(\frac{1}{x}\right) \le 1.\] Multiplying both
+    sides by $x^2$, we obtain \[-x^2 \le x^2 \sin\left(\frac{1}{x}\right) \le x^2.\]
+    Evaluating the leftmost and
+    rightmost limits by direct substitution,
+    \[\lim_{x \to 0} x^2 = \lim_{x \to 0} (-x^2) = 0 \implies
+    \lim_{x \to 0} x^2 \sin\left(\frac{1}{x}\right) = 0 \]
+    by the squeeze theorem, and we are done.
+\end{solution}
+
+\section{Differentiation from first principles}
+Differentiation in the `A'-Level and `O'-Level has, in the author's experience, only been taught in terms of
+memorizing formulae and identities. For example, one simply assumes that \[\frac{d}{dx}\sin(x) = \cos(x).\]
+
+The proof of this `trivial' identity, is not `trivial'; it has never ever been covered in any
+ordinary course. This is because the proof of this identity utilizes \thref{squeeze}.
+In fact, most trigonometric identities stem from the aforementioned theorem.
+
+Now, we must start with the very definition of what a
+derivative is. Instead of introducing the definition directly without further explanation, let us
+briefly derive the definition of the derivative ourselves.
+
+Recall that the gradient of a straight line $y$ passing through two points $(x_1, y_1)$ and $(x_2, y_2)$ is
+defined as $m = \frac{y_2 - y_1}{x_2 - x_1}.$, where $x_2 > x_1$ and $x,y \in \mathbb{R}$.
+If $y = f(x)$, then $m = \frac{f(x_2) - f(x_1)}{x_2 - x_1}.$
+
+Now, consider the difference between $x_2$ and $x_1$; let this difference be
+$\delta = x_2 - x_1$. Then $x_2 = x_1 + \delta$. Replacing all such occurences of $x_2$, one obtains
+\[m = \frac{f(x_1 + \delta) - f(x_1)}{\delta}.\]
+
+We have learnt that we can draw a tangent at a point in a graph to find the gradient at that point; this is exactly
+the idea we use here to formally define the derivative. As $\delta$ tends to $0$, we will get a better approximation
+of the gradient at the point $(x_1, y_1)$. Alas, using limits, we have the following definition:
+
+\begin{definition}
+    The derivative of a function $f(x)$, with respect to $x$, is defined as
+    \[f'(x) = \lim_{\delta \to 0} \frac{f(x + \delta) - f(x)}{\delta}\]
+\end{definition}
+
+When we apply this definition in finding a derivative, the process is dubbed as \textit{differentiating
+from first principles}.
+
+\begin{example}
+    Find the derivative of $f(x) = 3x^2 + 2x + 1$.
+\end{example}
+\begin{solution}
+    By differentiating from first principles, one obtains
+    \begin{equation*}
+        \begin{split}
+            f'(x) &= \lim_{\delta \to 0} \frac{f(x + \delta) - f(x)}{\delta} \\
+            &= \lim_{\delta \to 0} \frac{(3(x + \delta)^2 + 2(x + \delta) + 1) - (3x^2 + 2x + 1)}{\delta} \\
+            &= \lim_{\delta \to 0} \frac{3(x + \delta)^2 + 2x + 2\delta + 1 - 3x^2 - 2x - 1}{\delta} \\
+            &= \lim_{\delta \to 0} \frac{3(x + \delta)^2 + 2\delta - 3x^2}{\delta} \\
+            &= \lim_{\delta \to 0} \frac{3(x^2 + 2x\delta + \delta^2) + 2\delta - 3x^2}{\delta} \\
+            &= \lim_{\delta \to 0} \frac{3x^2 + 6x\delta + 3\delta^2 + 2\delta - 3x^2}{\delta} \\
+            &= \lim_{\delta \to 0} \frac{6x\delta + 3\delta^2 + 2\delta}{\delta} \\
+            &= \lim_{\delta \to 0} 6x + 3\delta + 2 \\
+            &= 6x + 3(0) + 2 \\
+            &= 6x + 2
+        \end{split}
+    \end{equation*}
+    Indeed, this is what we expect since \[\frac{d}{dx}(3x^2 + 2x + 1) = 6x + 2.\]
+    Hence we are done.
+\end{solution}

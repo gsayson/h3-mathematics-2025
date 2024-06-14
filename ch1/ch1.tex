@@ -1,0 +1,142 @@
+\chapter{Mathematical Statements}
+\section{Quantification}
+Mathematicians use many symbols to quantify objects in logical statements. Consider the statement
+\[
+\forall x \exists y : x + y = 0
+\]
+Here, $x,y \in \mathbb{Z} - \{0\}$. What this statement is saying is that for all ($\forall$) $x$, there exists
+some (one or more) $y$ such that $x + y = 0$.
+
+If we write $\exists y$ alone, it means that there can exist \textit{any number} of such $y$ (including only one!).
+But in our above statement, only one such $y$ can be the negative of some integer $x$. To emphasize this uniqueness
+of $y$, we further annotate $\exists!$.
+
+\subsection{For all ($\forall$)}
+The $\forall$ (read "for all") symbol is used to specify some arbitrary element (which can be anything!) in a set
+of objects. Consider the set of real numbers $\mathbb{R}$. If we want to state a logical statement $P(x)$ which
+applies to any $x$ in $\mathbb{R}$, we say $\forall x \in \mathbb{R} : P(x)$.
+
+One usually uses this to declare dummy variables which are used in proofs. Therefore, dummy variables
+are declared before existence clauses.
+
+\subsection{There exists ($\exists$ or $\exists!$)}
+There are two ways we can specify existence: do we know that there can only one such object ($\exists!$),
+or do we not know how many such objects can exist ($\exists$)?
+
+Consider the statement: \textit{For all integers $n$ there exists another integer $m$ such that $n + m$ is even.}
+We can write this using the symbols we have learnt, as
+\[
+\forall n \in \mathbb{Z} \exists m \in \mathbb {Z} : n + m \,\, \text{is even}
+\]
+
+In the above statement, there exist many $m \in \mathbb{Z}$ which can make $n + m$ even for any $n \in \mathbb{Z}$.
+Take for example $n = 1$. Then when $m = 1$, $n + m = 2$ which is even. But $m = 3$ is possible, since $n + m = 4$
+which is also even. Hence, $m$ is not unique, and we can only write $\exists$ without the exclamation mark `!'.
+
+Now, consider our earlier statement $\forall x \exists y : x + y = 0$ where $x,y\in\mathbb{Z}$. Here, $y$ must be unique; each integer
+possesses a unique additive inverse. Hence, we can emphasize on this uniqueness by writing $\forall x \exists! y :
+x + y = 0$.
+
+\newpage
+
+\section{Definitions, propositions, theorems}
+Mathematicians use many terms to classify statements which tell us \textit{what}
+something is, or whether it has been proved. The terminology in use can also tell us about its
+importance. In this section, we will discuss briefly the terms:
+\begin{itemize}
+    \item Theorem
+    \item Definition
+    \item Proposition
+    \item Collorary
+    \item Lemma
+    \item Conjecture
+\end{itemize}
+
+We introduce the first two terms by way of an example.
+\begin{definition}
+    A prime number $p$ is a positive integer which is divisible only by $1$ and itself.
+\end{definition}
+
+This leads to the following theorem.
+
+\begin{theorem}[Euclid]
+    There are infinitely many prime numbers.
+\end{theorem}
+\begin{proof}
+    Suppose that there exists a finite set of primes $\mathcal{P} = \{p_1,p_2,p_3,...,p_n\}$,
+    where $p_k$ is the $k$-th prime number. Now consider $j = p_1 p_2 p_3 ... p_n + 1$. If $j$ is prime
+    and not in $\mathcal{P}$, there is a contradiction. Otherwise $j$ is divisible by some prime number $p_z$.
+    But that implies that $p_z$ divides $1$, another contradiction. Hence there are infinitely many prime numbers.
+\end{proof}
+
+(How this proof is constructed will be seen in Chapter \ref{mp}.)
+
+As seen above, theorems are proven purely by deductive reasoning, and they are based on other true
+statements.
+
+Propositions are theorems that are less important; they are considered so trivial that it may be stated
+without any proof. A collorary is a proposition that is immediately implied by some theorem or other true
+statement, and a lemma is a proposition mainly suited in some proof. (Note that over time, lemmas may
+rise in importance to the level of theorems, but the term ``lemma'' remains in the name. An example is
+B\'{e}zout's lemma.)
+
+Conjectures on the other hand are statements that are generally believed to be true, but lack proof. We introduce
+this concept by way of another example from \cite{Velleman_2019}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        $n$ & $2^n - 1$ & Is $n$ prime? & Is $2^n - 1$ prime? \\ \hline
+        $2$ & $3$       & Yes           & Yes                 \\ \hline
+        $3$ & $7$       & Yes           & Yes                 \\ \hline
+        $5$ & $31$      & Yes           & Yes                 \\ \hline
+        $7$ & $127$     & Yes           & Yes                 \\ \hline
+        $9$ & $511$     & No            & No                  \\ \hline
+    \end{tabular}
+    \caption{Primes of the form $2^n - 1$.}
+    \label{tab:mersenne-test}
+\end{table}
+
+In the above table, we notice a pattern: if $n$ is prime, then $2^n - 1$ must be prime. Hence, we make a conjecture as
+follows.
+
+\begin{conjecture}
+    For any prime $p$, $2^p - 1$ is prime.
+\end{conjecture}
+
+Let's check the
+case $n = 11$ to make sure this holds.
+\[
+2^{11} - 1 = 2047 = 23 \times 89
+\]
+Unfortunately, our pattern does not hold. The existence of one counterexample immediately proves our claim false;
+this is a method of proof detailed in Chapter \ref{mp}.
+
+For the cases where $2^n - 1$ is prime, such numbers are called
+\textit{Mersenne primes}. It is conjectured that there are infinitely many such primes.
+
+\section{Connectives and conditionals}
+Connectives can be thought of as `conjunctions', just like in any language.
+
+Suppose that $P$ and $Q$ are two statements.
+Then we write `$P$ and $Q$' as $P \land Q$' (the \textit{conjunction} of $P$ and $Q$), `$P$ or $Q$'
+as $P \lor Q$ (the \textit{disjunction} of $P$ and $Q$), and `not $P$' as $\lnot P$ (the \textit{negation}
+of $P$).
+
+Now, suppose that if $P$, then $Q$. We write this as $P \implies Q$ ($P$ ``implies'' $Q$) where
+$P$ is known as the \textit{antecedent} and $Q$ is known as the \textit{consequent}. (Some authors may annotate
+$P \rightarrow Q$ instead.)
+
+The statement $P \implies Q$ can also be thought of as ``if $P$, then $Q$''.
+
+\begin{example}
+    Write, in logical form, the statement `\textit{If a rose is given to Guy or Guy gets a fianc\'{e}e, Guy will be happy}',
+    if $P$ stands for the statement `\textit{A rose is given to Guy}',
+    $Q$ stands for the statement `\textit{Guy gets a fianc\'{e}e}' and
+    $R$ stands for the statement `\textit{Guy will be happy}'. State the antecedent and the consequent.
+\end{example}
+\begin{solution}
+    $(P \lor Q) \implies R$. The antecedent is $(P \lor Q)$, and the
+    consequent is $R$.
+\end{solution}

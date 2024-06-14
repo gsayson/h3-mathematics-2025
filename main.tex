@@ -1,0 +1,49 @@
+\documentclass[a5paper,11pt]{book}
+\usepackage[a5paper, vmargin=2.5cm]{geometry}
+\usepackage{amssymb, amstext, amsmath, epstopdf, booktabs, verbatim, gensymb, appendix, natbib, lmodern}
+\usepackage{emptypage, amsthm, array, theoremref}
+\usepackage[english]{babel}
+\usepackage[nottoc]{tocbibind}
+\usepackage{tikz}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newenvironment{solution}{
+    \renewcommand{\proofname}{Solution}
+    \renewcommand{\qedsymbol}{$\triangle$}
+    \begin{proof}}{\end{proof}
+}
+\let\epsilon\varepsilon
+
+\title{H3 Mathematics 2025}
+\author{Gerard Sayson}
+
+\begin{document}
+
+\renewcommand{\arraystretch}{1.5}
+\renewcommand{\bibname}{References}
+
+\maketitle
+
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+
+\include{ch1/ch1}
+\include{ch2/ch2}
+\include{ch3/ch3}
+\include{ch4/ch4}
+
+\backmatter
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}
