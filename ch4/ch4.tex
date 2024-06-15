@@ -44,6 +44,189 @@ then $\lim_{x \to c} f(x) = L$.
 
 A function $f(x)$ is said to be continuous at $x = c$, if $\lim_{x \to c} = f(c)$.
 
+\section{Finding limits}
+The above sections now beg the question, ``how do we find what a limit is?'' In this section, we will discover the
+idea of a `limit', how we can approximate it, and then how we can find the exact value of the limit.
+
+Because some functions may not be defined at some particular value, for example
+$f(x) = \frac{\sin(x)}{x}$ is not defined at $x = 0$ due to division by zero being undefined.
+Instead of leaving it undefined, we can attempt to `complete' the graph of $y = f(x)$, by trying
+to find some suitable value; this is where limits come in.
+
+The process of `completing' the graph of $y = f(x)$ at $x = c$ (where $f(c)$ does not exist) will
+definitely involve studying the \textit{behavior} of the function around $x = c$. Even if $f(c)$ existed,
+we ignore that, and find our own `completion' to the graph.
+
+We will start with this idea of `completing the graph' in the following section.
+
+\subsection{Evaluation by approximation}
+Consider the function $f(x) = \frac{\sin(x)}{x}$, where $x$ is in degrees. If we graph it, we get:
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = $x$,
+            ylabel = {$y$},
+            domain=-10:10,
+            samples=200,
+            ymin=-0.5, ymax=1.5,
+            restrict y to domain=-2:2,  % To handle large values near discontinuity
+            ]
+            % Plot the function excluding x=0
+            \addplot[
+                domain=-10:-0.1,
+                samples=100,
+                thick,
+                smooth,
+            ]{sin(deg(x))/x};
+            \addplot[
+                domain=0.1:10,
+                samples=100,
+                thick,
+                smooth,
+            ]{sin(deg(x))/x};
+            % Add a hole at x=0
+            \addplot[
+                only marks,
+                mark=*,
+                mark options={fill=white, draw=black},
+            ] coordinates {(0, 1)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Plot of $y = \frac{\sin(x)}{x}$}
+    \label{fig:sincx}
+\end{figure}
+
+In Figure \ref{fig:sincx}, $y$ is not defined at $x = 0$ since division by zero is undefined. However, $y$ can be seen
+approaching $1$ as $x \to 0$, \textbf{from both sides}. In limit notation, $\lim_{x \to 0} y = 1$.
+
+(One-sided limits, where $x$ approaches from only one side, will be covered later.)
+
+Now, let us define a sequence where the $n$-th term
+\[T_n = \frac{\sin(n)}{n}\]
+for $n \in \mathbb{Z}^+$.
+
+\begin{table}[p]
+    \centering
+    \begin{tblr}{cells = {c}, hlines, vlines}
+        $-\lg(n)$ & $T_n$ (approx.)  \\
+        $1$ & $0.99833416647$  \\
+        $2$ & $0.999983333417$ \\
+        $3$ & $0.99999983333$  \\
+        $4$ & $0.99999999833$  \\
+        $5$ & $0.99999999983$  
+    \end{tblr}
+    \caption{Values of $-\lg(n)$ and $T_n$ for $0 \le n \le 5$.}
+    \label{tab:vntn}
+\end{table}
+
+As seen in Table \ref{tab:vntn}, $T_n$ quickly approaches $1$ as $n$ approaches zero. In notation,
+\[T_n \to 1\,\,\text{as}\,\,n \to 0\]
+In other words,
+\[\lim_{n \to 0} T_n = \lim_{n \to 0} \frac{\sin(n)}{n} = 1\]
+
+The reason that we can find the limit like so, is because $\frac{\sin(x)}{x}$ actually approaches
+\textbf{only one} value (from both sides), as seen in Figure \ref{fig:sincx}.
+
+Contrast this with the function $f(x) = \sin\left(\frac{1}{x}\right)$.
+
+\begin{figure}[p]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = $x$,
+            ylabel = {$y$},
+            domain=-1:1,
+            samples=200,
+            ymin=-1.5, ymax=1.5,
+            restrict y to domain=-2:2,  % To handle large values near discontinuity
+            ]
+            % Plot the function excluding x=0
+            \addplot[
+                domain=-1:-0.00001,
+                samples=100,
+                thick,
+                smooth,
+            ]{sin(deg(1/x))};
+            \addplot[
+                domain=0.00001:1,
+                samples=100,
+                thick,
+                smooth,
+            ]{sin(deg(1/x))};
+            % Add a hole at x=0
+            \addplot[
+                only marks,
+                mark=*,
+                mark options={fill=white, draw=black},
+            ] coordinates {(0, 0)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Plot of $y = f(x) = \sin\left(\frac{1}{x}\right)$}
+    \label{fig:sinrx}
+\end{figure}
+
+As seen in Figure \ref{fig:sinrx}, $y = f(x)$ oscillates wildly. It does not even approach a value as $f(x)$ gets smaller; we will leave
+the verification of this to the reader. Hence, the limit does not exist here, as $f(x)$ never converges to any
+particular value.
+
+In fact, the limit does not even need to exist. Consider the sign function $\sgn(x)$, where
+$\sgn(x) = -1$ for $x < 0$, $\sgn(x) = 1$ for $x > 0$ and $\sgn(x) = 0$ for $x = 0$, and its
+graph in Figure \ref{fig:sgn}.
+
+We know that $\sgn(x)$ is defined everywhere, including $0$. However, limits study the behavior of
+functions \textit{around} some point, not \textit{at} that point.
+
+If we look from the left of Figure \ref{fig:sinrx}, it seems like $\sgn(x)$ is approaching $-1$ as $x$ approaches $0$ from
+$-\infty$. However, from the right, it seems like $\sgn(x)$ is approaching $1$ as $x$ approaches $0$
+from $+\infty$ (the positive sign is explicitly used here to emphasize that we approach from the right).
+
+Hence, because $\sgn(x)$ does not settle on only one value when $x$ approaches $0$ from both sides
+(i.e., the values are different, as stated previously), the limit of $\sgn(x)$ as $x \to 0$ \textbf{does
+not exist}.
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = $x$,
+            ylabel = {$y$},
+            domain=-1:1,
+            samples=200,
+            ymin=-1.5, ymax=1.5,
+            restrict y to domain=-2:2,  % To handle large values near discontinuity
+            ]
+            % Plot the function excluding x=0
+            \addplot[
+                domain=-1:-0.00001,
+                samples=100,
+                thick,
+                smooth,
+            ]{-1};
+            \addplot[
+                domain=0.00001:1,
+                samples=100,
+                thick,
+                smooth,
+            ]{1};
+            % Add a hole at x=0
+            \addplot[
+                only marks,
+                mark=*,
+                mark options={fill=black, draw=black},
+            ] coordinates {(0, 0)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Plot of $y = \sgn(x)$}
+    \label{fig:sgn}
+\end{figure}
+
+\newpage
+
 \section{Operations of limits}
 Suppose that $\lim_{x \to c} f(x) = A$ and $\lim_{x \to c} g(x) = B$ for the functions $f(x)$, $g(x)$,
 and $A,B$ are constants. Then:
@@ -158,3 +341,43 @@ from first principles}.
     Indeed, this is what we expect since \[\frac{d}{dx}(3x^2 + 2x + 1) = 6x + 2.\]
     Hence we are done.
 \end{solution}
+
+\section{L'H\^{o}pital's rule}
+L'H\^{o}pital's rule is a theorem popularly used to evaluate limits of expressions which take,
+after direct substitution, $\frac{f(x)}{g(x)} = \frac{0}{0}$ or $\frac{\infty}{\infty}$.
+If we assume that $f(x)$ and $g(x)$ are differentiable everywhere, and they are well defined
+everywhere, we state L'H\^{o}pitals rule as follows:
+
+\begin{theorem}[L'H\^{o}pital's rule]
+    For any functions $f : \mathbb{R} \to \mathbb{R}$ and $g : \mathbb{R} \to \mathbb{R}$ differentiable everywhere and well-defined
+    everywhere,
+    \[\lim_{x \to c} \frac{f(x)}{g(x)} = \lim_{x \to c} \frac{f'(x)}{g'(x)}\]
+    if the following conditions hold:
+    \begin{itemize}
+        \item $\lim_{x \to c} f(x) = \lim_{x \to c} g(x) = 0 \,\,\text{or}\,\pm \infty$
+        \item $g'(x) \ne 0$
+        \item $\lim_{x \to c} \frac{f'(x)}{g'(x)}$ exists
+    \end{itemize}
+    where $f(x),g(x)$ are functions of $x$.
+\end{theorem}
+
+\newpage
+\section{Exercises}
+
+\begin{exercise}
+    approximate the limit of $\frac{1}{x}$ as $x$ approaches $0$ from both sides
+    (i.e., approximate the left and right limits). Hence, explain why
+    \[lim_{x \to 0} \frac{1}{x}\]
+    does not exist.
+\end{exercise}
+
+\begin{exercise}
+    Prove that \[\lim_{x \to 0} |f(x)| = 0 \implies \lim_{x \to 0} f(x) = 0\]
+    using the squeeze theorem. (Hint: $|-f(x)| = |f(x)|$. Form an inequality.)
+\end{exercise}
+
+\begin{exercise}
+    It is known that the sum of a geometric series up to $n$ terms is given by
+    \[S_n = \sum_{k=1}^n ar^{k - 1} = \frac{a(r^n - 1)}{r - 1}\]
+    If $|r| < 0$, take the limit of $S_n$ as $n$ approaches $\infty$.
+\end{exercise}

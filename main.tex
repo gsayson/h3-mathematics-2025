@@ -4,12 +4,15 @@
 \usepackage{emptypage, amsthm, array, theoremref}
 \usepackage[english]{babel}
 \usepackage[nottoc]{tocbibind}
-\usepackage{tikz}
+\usepackage{tikz, pgfplots, caption, tabularray}
+
+\DeclareMathOperator{\sgn}{sgn}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{conjecture}[theorem]{Conjecture}
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
+\newtheorem{exercise}{Exercise}[section]
 \newtheorem{example}[theorem]{Example}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
