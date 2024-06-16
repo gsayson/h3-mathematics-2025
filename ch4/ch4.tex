@@ -4,6 +4,15 @@ and integration; their formal definitions are in terms of limits. Here, we will 
 sequences and functions, their arithmetic operations, the squeeze theorem, L'Hopital's rule, and
 apply it to formally defining the derivative.
 
+One other key use of limits is in evaluating \textit{improper integrals}. For example, one can
+evaluate
+
+\[\int_{1}^{\infty} \frac{1}{x^2} \, dx = \lim_{\Omega \to \infty} \int_{1}^{\Omega} \frac{1}{x^2} \, dx = 1\]
+
+The reason we need a limit in this case is because we simply cannot directly evaluate
+\[\frac{1}{\infty}\]
+Dividing by infinity is not defined in the real numbers! In fact, $\infty \notin \mathbb{\mathbb{R}}$.
+
 \section{Limits of sequences and functions}
 
 \subsection{Limits of sequences}
@@ -42,13 +51,11 @@ then $\lim_{x \to c} f(x) = L$.
     The limit is \[\lim_{x \to \infty} \frac{1}{x} = 0.\]
 \end{solution}
 
-A function $f(x)$ is said to be continuous at $x = c$, if $\lim_{x \to c} = f(c)$.
-
-\section{Finding limits}
+\section{Approximating limits}
 The above sections now beg the question, ``how do we find what a limit is?'' In this section, we will discover the
 idea of a `limit', how we can approximate it, and then how we can find the exact value of the limit.
 
-Because some functions may not be defined at some particular value, for example
+Some functions may not be defined at some particular value, for example
 $f(x) = \frac{\sin(x)}{x}$ is not defined at $x = 0$ due to division by zero being undefined.
 Instead of leaving it undefined, we can attempt to `complete' the graph of $y = f(x)$, by trying
 to find some suitable value; this is where limits come in.
@@ -57,9 +64,8 @@ The process of `completing' the graph of $y = f(x)$ at $x = c$ (where $f(c)$ doe
 definitely involve studying the \textit{behavior} of the function around $x = c$. Even if $f(c)$ existed,
 we ignore that, and find our own `completion' to the graph.
 
-We will start with this idea of `completing the graph' in the following section.
+We will start with this idea of `completing the graph' in the following section, using numerical methods first.
 
-\subsection{Evaluation by approximation}
 Consider the function $f(x) = \frac{\sin(x)}{x}$, where $x$ is in degrees. If we graph it, we get:
 
 \begin{figure}[h]
@@ -72,9 +78,8 @@ Consider the function $f(x) = \frac{\sin(x)}{x}$, where $x$ is in degrees. If we
             domain=-10:10,
             samples=200,
             ymin=-0.5, ymax=1.5,
-            restrict y to domain=-2:2,  % To handle large values near discontinuity
+            restrict y to domain=-2:2,
             ]
-            % Plot the function excluding x=0
             \addplot[
                 domain=-10:-0.1,
                 samples=100,
@@ -87,7 +92,6 @@ Consider the function $f(x) = \frac{\sin(x)}{x}$, where $x$ is in degrees. If we
                 thick,
                 smooth,
             ]{sin(deg(x))/x};
-            % Add a hole at x=0
             \addplot[
                 only marks,
                 mark=*,
@@ -108,7 +112,7 @@ Now, let us define a sequence where the $n$-th term
 \[T_n = \frac{\sin(n)}{n}\]
 for $n \in \mathbb{Z}^+$.
 
-\begin{table}[p]
+\begin{table}
     \centering
     \begin{tblr}{cells = {c}, hlines, vlines}
         $-\lg(n)$ & $T_n$ (approx.)  \\
@@ -132,7 +136,7 @@ The reason that we can find the limit like so, is because $\frac{\sin(x)}{x}$ ac
 
 Contrast this with the function $f(x) = \sin\left(\frac{1}{x}\right)$.
 
-\begin{figure}[p]
+\begin{figure}
     \centering
     \begin{tikzpicture}
         \begin{axis}[
@@ -142,9 +146,8 @@ Contrast this with the function $f(x) = \sin\left(\frac{1}{x}\right)$.
             domain=-1:1,
             samples=200,
             ymin=-1.5, ymax=1.5,
-            restrict y to domain=-2:2,  % To handle large values near discontinuity
+            restrict y to domain=-2:2,
             ]
-            % Plot the function excluding x=0
             \addplot[
                 domain=-1:-0.00001,
                 samples=100,
@@ -157,7 +160,6 @@ Contrast this with the function $f(x) = \sin\left(\frac{1}{x}\right)$.
                 thick,
                 smooth,
             ]{sin(deg(1/x))};
-            % Add a hole at x=0
             \addplot[
                 only marks,
                 mark=*,
@@ -188,7 +190,11 @@ Hence, because $\sgn(x)$ does not settle on only one value when $x$ approaches $
 (i.e., the values are different, as stated previously), the limit of $\sgn(x)$ as $x \to 0$ \textbf{does
 not exist}.
 
-\begin{figure}[h]
+Note that $\lim_{x \to 0} \sgn(x) \ne \sgn(0)$. Compare this with any polynomial; all polynomials $P(x)$
+satisfy the property \[\forall (P : \mathbb{R} \to \mathbb{R}) \forall c \in \mathbb{R} \to \mathbb{R} : \lim_{x \to c} P(x) = P(c)\]
+This property is very important; it is called \textit{continuity}. It will be discussed later.
+
+\begin{figure}
     \centering
     \begin{tikzpicture}
         \begin{axis}[
@@ -198,9 +204,8 @@ not exist}.
             domain=-1:1,
             samples=200,
             ymin=-1.5, ymax=1.5,
-            restrict y to domain=-2:2,  % To handle large values near discontinuity
+            restrict y to domain=-2:2,
             ]
-            % Plot the function excluding x=0
             \addplot[
                 domain=-1:-0.00001,
                 samples=100,
@@ -213,7 +218,6 @@ not exist}.
                 thick,
                 smooth,
             ]{1};
-            % Add a hole at x=0
             \addplot[
                 only marks,
                 mark=*,
@@ -227,29 +231,84 @@ not exist}.
 
 \newpage
 
-\section{Operations of limits}
+\section{Basic laws of limits}
+Before we prepare for evaluating limits' exact values, we must make ourselves aware of the following laws.
+We distinguish this section from the following, so the reader can easily reference this section.
+
 Suppose that $\lim_{x \to c} f(x) = A$ and $\lim_{x \to c} g(x) = B$ for the functions $f(x)$, $g(x)$,
 and $A,B$ are constants. Then:
-\[
-\lim_{x \to c} (f(x) \pm g(x)) = A \pm B,
-\]
-\[
-\lim_{x \to c} (f(x) g(x)) = A B,
-\]
-\[
-\lim_{x \to c} \left(\frac{f(x)}{g(x)}\right)  = \frac{A}{B},\,\,B\ne 0,
-\]
-\[
-\lim_{x \to c} kf(x) = k\lim_{x \to c} f(x) = kA,\,\,k\,\,\text{is a constant.}
-\]
+
+\begin{itemize}
+    \item \textbf{Sum and Difference Law}
+    \[
+    \lim_{x \to c} (f(x) \pm g(x)) = A \pm B,
+    \]
+    \item \textbf{Product Law}
+    \[
+    \lim_{x \to c} (f(x) g(x)) = A B,
+    \]
+    \item \textbf{Quotient Law}
+    \[
+    \lim_{x \to c} \left(\frac{f(x)}{g(x)}\right)  = \frac{A}{B},\,\,B\ne 0,
+    \]
+    \item \textbf{Constant Multiple Law}
+    \[
+    \lim_{x \to c} kf(x) = k\lim_{x \to c} f(x) = kA,\,\,k\,\,\text{is a constant}
+    \]
+    \item \textbf{Power Law}
+    \[
+    \lim_{x \to c} (f(x))^k = (\lim_{x \to c} f(x))^k = A^k,\,\,k \in \mathbb{Z^+}
+    \]
+    \item \textbf{Root Law for (for $A < 0$)}
+    \[
+    \lim_{x \to c} \sqrt[k]{f(x)} = \sqrt[k]{\lim_{x \to c} f(x)} = \sqrt[k]{A},\,\,A < 0, k \in \mathbb{Z^+}
+    \setminus \{2, 4, 6, 8, ...\}
+    \]
+    \item \textbf{Root Law (for all other cases)}
+    \[
+    \lim_{x \to c} \sqrt[k]{f(x)} = \sqrt[k]{\lim_{x \to c} f(x)} = \sqrt[k]{A},\,\,A \ge 0, k \in \mathbb{Z^+}
+    \]
+    \item \textbf{Basic Law 1}
+    \[
+    \lim_{x \to c} x = c
+    \]
+    \item \textbf{Basic Law 2}
+    \[
+    \lim_{x \to c} k = k, \quad \text{$k$ is a constant}
+    \]
+\end{itemize}
+
+(In examinations, do not state ``Basic Law 1'' and ``Basic Law 2''! They are just names given for
+easy reference in this book.)
 
 \begin{example}
-    Find the limit of $k e^{-x}$, as $x$ tends to infinity. 
+    Find the limit of \[\frac{k}{e^x} + \frac{1}{x^2}\] as $x$ tends to some unknown $c \in \mathbb{R}$
+    (in other words, $c$ is finite),
+    in terms of $A$ and $B$ where \[\lim_{x \to c} e^x = A, \lim_{x \to c} x^2 = B.\]
+    State the laws applied.
 \end{example}
 \begin{solution}
-    The limit is \[\lim_{x \to \infty} k e^{-x} = k \lim_{x \to -\infty} e^{-x} = k \times 0 = 0.\]
-    One can study the behavior of $e^{-x}$ graphically.
+    \begin{equation*}
+        \begin{split}
+            \lim_{x \to c} \left(\frac{k}{e^x} + \frac{1}{x^2}\right)
+            &= \lim_{x \to c} \frac{k}{e^x} + \lim_{x \to c} \frac{1}{x^2} \quad \text{(Sum Law)} \\
+            &= \frac{\lim_{x \to c} k}{\lim_{x \to c} e^x} + \frac{\lim_{x \to c} 1}{\lim_{x \to c} x^2} \quad
+            \text{(Quotient Law)} \\
+            &= \frac{k}{\lim_{x \to c} e^x} + \frac{1}{\lim_{x \to c} x^2} \quad
+            \text{(Basic Law 2)} \\
+            &= \frac{k}{A} + \frac{1}{B} \quad
+            \text{(by definition of $A$ and $B$)} \\
+        \end{split}
+    \end{equation*}
 \end{solution}
+
+\section{Algebraic evaluation of limits}
+Let us start off this section by recognizing that there are inherent problems with graphs.
+While graphs are great for studying functions, they provide limited precision for approximating
+limits; in the interest of accuracy, we usually pick algebraic methods of evaluation compared to approximation.
+
+In order to evaluate a limit algebraically, we must be able to transform it such that we can directly substitute
+in values without any problems like dividing by infinity.
 
 \section{The squeeze theorem}
 The squeeze theorem is extremely useful in determining important limits; in fact, it is key to proving the
@@ -263,8 +322,7 @@ derivative of $\sin(x)$ (with respect to $x$). Hence, we begin with a statement 
     where $c$ is a constant.
 \end{theorem}
 \begin{proof}
-    The proof can be found on Wikipedia.
-    % It is beyond the scope of this book.
+    The proof is beyond the scope of this book.
 \end{proof}
 
 Now, we begin with some examples.
@@ -301,7 +359,43 @@ briefly derive the definition of the derivative ourselves.
 
 Recall that the gradient of a straight line $y$ passing through two points $(x_1, y_1)$ and $(x_2, y_2)$ is
 defined as $m = \frac{y_2 - y_1}{x_2 - x_1}.$, where $x_2 > x_1$ and $x,y \in \mathbb{R}$.
-If $y = f(x)$, then $m = \frac{f(x_2) - f(x_1)}{x_2 - x_1}.$
+If $y = f(x)$, then $m = \frac{f(x_2) - f(x_1)}{x_2 - x_1}.$ If this straight line passes through some curve,
+and the line is \textbf{not} a tangent to that curve (i.e., it intersects the curve more than once),
+the straight line is known as a \textit{secant line} of that curve.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = $x$,
+            ylabel = {$y$},
+            domain=-5:5,
+            samples=200,
+            ymin=-30, ymax=30,
+            restrict y to domain=-30:30,
+            ]
+            \addplot[
+                domain=-5:5,
+                samples=100,
+                thick,
+                smooth,
+            ]{x^2};
+            \addplot[
+                domain=-5:5,
+                samples=100,
+                thick,
+                smooth,
+            ]{2*x+2};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{
+        Plot of $y = x^2$ and one of its secant lines $y = 2x + 2$.
+        Notice that as the distance between the points which the secant line intersects get closer
+        to a single point, we get a better approximation of the tangent of the curve at that point.
+    }
+    \label{fig:secantline}
+\end{figure}
 
 Now, consider the difference between $x_2$ and $x_1$; let this difference be
 $\delta = x_2 - x_1$. Then $x_2 = x_1 + \delta$. Replacing all such occurences of $x_2$, one obtains
