@@ -66,7 +66,7 @@ we ignore that, and find our own `completion' to the graph.
 
 We will start with this idea of `completing the graph' in the following section, using numerical methods first.
 
-Consider the function $f(x) = \frac{\sin(x)}{x}$, where $x$ is in degrees. If we graph it, we get:
+Consider the function $f(x) = \frac{\sin(x)}{x}$, where $x$ is in radians. If we graph it, we get:
 
 \begin{figure}[h]
     \centering
@@ -115,14 +115,14 @@ for $n \in \mathbb{Z}^+$.
 \begin{table}
     \centering
     \begin{tblr}{cells = {c}, hlines, vlines}
-        $-\lg(n)$ & $T_n$ (approx.)  \\
-        $1$ & $0.99833416647$  \\
-        $2$ & $0.999983333417$ \\
-        $3$ & $0.99999983333$  \\
-        $4$ & $0.99999999833$  \\
-        $5$ & $0.99999999983$  
+        $n$ & $T_n$ (approx.)  \\
+        $10^{-1}$ & $0.99833416647$  \\
+        $10^{-2}$ & $0.999983333417$ \\
+        $10^{-3}$ & $0.99999983333$  \\
+        $10^{-4}$ & $0.99999999833$  \\
+        $10^{-5}$ & $0.99999999983$  
     \end{tblr}
-    \caption{Values of $-\lg(n)$ and $T_n$ for $0 \le n \le 5$.}
+    \caption{Values of $n$ and $T_n$ for $0 \le n \le 5$.}
     \label{tab:vntn}
 \end{table}
 
@@ -136,7 +136,7 @@ The reason that we can find the limit like so, is because $\frac{\sin(x)}{x}$ ac
 
 Contrast this with the function $f(x) = \sin\left(\frac{1}{x}\right)$.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{tikzpicture}
         \begin{axis}[
@@ -175,7 +175,8 @@ As seen in Figure \ref{fig:sinrx}, $y = f(x)$ oscillates wildly. It does not eve
 the verification of this to the reader. Hence, the limit does not exist here, as $f(x)$ never converges to any
 particular value.
 
-In fact, the limit does not even need to exist. Consider the sign function $\sgn(x)$, where
+In fact, limits do not care about whether $f(x)$ is defined at some point where we
+take the limit to. Consider the sign function $\sgn(x)$, where
 $\sgn(x) = -1$ for $x < 0$, $\sgn(x) = 1$ for $x > 0$ and $\sgn(x) = 0$ for $x = 0$, and its
 graph in Figure \ref{fig:sgn}.
 
@@ -191,7 +192,7 @@ Hence, because $\sgn(x)$ does not settle on only one value when $x$ approaches $
 not exist}.
 
 Note that $\lim_{x \to 0} \sgn(x) \ne \sgn(0)$. Compare this with any polynomial; all polynomials $P(x)$
-satisfy the property \[\forall (P : \mathbb{R} \to \mathbb{R}) \forall c \in \mathbb{R} \to \mathbb{R} : \lim_{x \to c} P(x) = P(c)\]
+satisfy the property \[\forall (P : \mathbb{R} \to \mathbb{R}) \forall c \in \mathbb{R} : \lim_{x \to c} P(x) = P(c)\]
 This property is very important; it is called \textit{continuity}. It will be discussed later.
 
 \begin{figure}
@@ -278,10 +279,13 @@ and $A,B$ are constants. Then:
     \]
 \end{itemize}
 
+The proofs of these laws require the $\epsilon$-$\delta$ definition of the limit, which is far beyond
+the scope of this book. Again, this treatment can be found in \cite{Gong_2017}.
+
 (In examinations, do not state ``Basic Law 1'' and ``Basic Law 2''! They are just names given for
 easy reference in this book.)
 
-\begin{example}
+\begin{example}\thlabel{lim1}
     Find the limit of \[\frac{k}{e^x} + \frac{1}{x^2}\] as $x$ tends to some unknown $c \in \mathbb{R}$
     (in other words, $c$ is finite),
     in terms of $A$ and $B$ where \[\lim_{x \to c} e^x = A, \lim_{x \to c} x^2 = B.\]
@@ -309,6 +313,114 @@ limits; in the interest of accuracy, we usually pick algebraic methods of evalua
 
 In order to evaluate a limit algebraically, we must be able to transform it such that we can directly substitute
 in values without any problems like dividing by infinity.
+
+We introduce the algebraic evaluation of limits by way of the previous \thref{lim1}.
+
+\begin{example}[Continuation of \thref{lim1}]
+    Find the limit of \[\frac{k}{e^x} + \frac{1}{x^2}\] as $x$ tends to some unknown $c \in \mathbb{R}$.
+\end{example}
+\begin{solution}
+    From our solution in \thref{lim1}, we have
+    \[\frac{k}{\lim_{x \to c} e^x} + \frac{1}{\lim_{x \to c} x^2}\]
+    Here, we are able to simplify the limit to:
+    \[\frac{k}{\lim_{x \to c} e^x} + \frac{1}{(\lim_{x \to c} x)^2}\]
+    We can firstly apply Basic Law 2 on the expression $(\lim_{x \to c} x)^2$, to get
+    \[(\lim_{x \to c} x)^2 = c^2\]
+    and therefore
+    \[\frac{k}{\lim_{x \to c} e^x} + \frac{1}{c^2}\]
+    Now, we perform a direct substitution
+    by just evaluating the function at $c$: $\lim_{x \to c} e^x = e^c$. It is justified because it is \textit{continuous}.
+    In the following section, we will define what the term actually means, in both an intuitive and formal manner.
+
+    Therefore, our final answer is
+    \[\frac{k}{e^c} + \frac{1}{c^2}\]
+\end{solution}
+
+\section{Continuity}
+Here, we finally define what continuity is. We will also discuss the \textit{intermediate value theorem},
+which is a formalization of the argument that if some function $f : \mathbb{R} \to \mathbb{R}$ is
+continuous on $[a, b]$, then $\forall \gamma \exists c : f(c) = \gamma$, where $f(a) < \gamma < f(b)$.
+
+\subsection{Basic notions}
+
+The formal definition of continuity, from which we will extract an intuitive meaning, is as follows:
+\begin{definition}
+    A function $f : D \to R$ is continuous in an interval $I \subseteq D$, when
+    \[\forall c \in I : \lim_{x \to c} f(x) = f(c)\]
+    and both $f(c)$ and $\lim_{x \to c} f(x)$ exist for all $c \in I$.
+\end{definition}
+
+We have said earlier that limits don't care about what the value is at that point; they only care
+about the behavior of the function around that point. Continuity is when the behavior of the function
+agrees with the definition of the function at some point. Let us look at a classic example.
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = $x$,
+            ylabel = {$f(x)$},
+            domain=-2:2,
+            samples=200,
+            ymin=-25, ymax=25,
+            restrict y to domain=-25:25,
+            ]
+            \addplot[
+                domain=-2:-0.00001,
+                samples=100,
+                thick,
+                smooth,
+            ]{1/x};
+            \addplot[
+                domain=0.00001:2,
+                samples=100,
+                thick,
+                smooth,
+            ]{1/x};
+            \addplot[
+                only marks,
+                mark=*,
+                mark options={fill=white, draw=black},
+            ] coordinates {(0, 0)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Plot of $f(x) = \frac{1}{x}$}
+    \label{fig:recx}
+\end{figure}
+
+In Figure \ref{fig:recx}, we see that $f(x)$ is continuous in the intervals
+$(-\infty, 0)$ (note, this is an open interval excluding $0$) and $(0, \infty)$ because for
+each of these intervals, we can draw a curve without ever lifting up a pencil. Indeed, for some
+value $\alpha \in (-\infty, 0)$,
+\[\lim_{x \to \alpha} f(x) = f(\alpha)\]
+holds.
+
+Unfortunately, $f(x)$ is not continuous at $x = 0$ (we say that there is a \textit{discontinuity} at $x = 0$),
+because \[\lim_{x \to 0} f(x) = f(0)\] does not hold. In fact, neither of these expressions exist!
+
+\subsection{Intermediate value theorem}
+We now discuss the intermediate value theorem.
+\begin{theorem}
+    Suppose that $f : D \to R$ is a function continuous in an interval $I$. If
+    for some $\alpha,\beta \in I$,
+    $A = f(\alpha)$ where $B = f(\beta)$, and $\alpha < \beta$, then
+    \[\forall g \in [A, B] \exists \gamma \in [\alpha, \beta] : f(\gamma) = g\]
+\end{theorem}
+
+What this theorem says is that if the graph $y = f(x)$ is continuous in a subset $[a, b]$ of its domain,
+since you can draw a curve joining $f(a)$ to $f(b)$, there must exist some $\gamma \in [a, b]$ such that
+this curve passes through the horizontal line $y = f(\gamma)$.
+
+This has an important corollary which we can use to prove the existence of roots within some interval.
+\begin{corollary}[Bolzano's theorem]
+    Suppose $f : D \to R$ is continuous within a closed interval $[a, b]$. If
+    $f(a) < 0$ and $f(b) > 0$, then there exists a root $c \in [a, b]$ such that
+    $f(c) = 0$.
+\end{corollary}
+\begin{proof}
+    This is an application of the intermediate value theorem to $g = 0$.
+\end{proof}
 
 \section{The squeeze theorem}
 The squeeze theorem is extremely useful in determining important limits; in fact, it is key to proving the
@@ -363,7 +475,7 @@ If $y = f(x)$, then $m = \frac{f(x_2) - f(x_1)}{x_2 - x_1}.$ If this straight li
 and the line is \textbf{not} a tangent to that curve (i.e., it intersects the curve more than once),
 the straight line is known as a \textit{secant line} of that curve.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{tikzpicture}
         \begin{axis}[
