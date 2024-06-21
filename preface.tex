@@ -1,0 +1,59 @@
+\newenvironment{preface}{
+    \vspace*{\stretch{2}}
+    {\noindent \bfseries \Huge \prefacename}
+    \begin{center}
+        \phantomsection \addcontentsline{toc}{chapter}{\prefacename} % enable this if you want to put the preface in the table of contents
+        \thispagestyle{plain}
+    \end{center}
+}
+{\vspace*{\stretch{5}}}
+
+\begin{preface}
+    When people find out that you're writing a math book, most of them would usually ask
+    two things:
+    \begin{enumerate}
+        \item ``Why are you writing this book?''
+        \item ``How is it different from the other books out there?''
+    \end{enumerate}
+    It is easy to answer the first question: I am simply unsatisfied by the sheer lack of learning material
+    for this subject. That is to be expected though, since most students sitting for the H3 Mathematics Syllabus
+    are extremely interested in mathematics (or they may just find H2 Mathematics too boring).
+    Most students will only be armed with some notes from their teachers, covering only what is necessary.
+
+    In order to cater to aspiring mathematicians, this book provides an in-depth treatment of the relevant concepts.
+    In the process, we help the reader build an intuition of concepts from various fields of mathematics, namely
+    real analysis, discrete mathematics. We als introduce the reader to some results.
+
+    In Chapters 1 and 2, we outline mathematical language, their rules, and show how they can be used
+    in proofs of results. In Chapter 3, we introduce techniques that the reader can use to solve problems.
+
+    Chapter 4, an introduction to limits, covers the basic idea of what a limit is (excluding the
+    formal $\epsilon$-$\delta$ and $\epsilon$-$N$ definitions of a limit). It starts off with basic notation,
+    before covering in-depth the concept of a limit as the `completion of a graph'. We introduce the idea
+    first by approximating an example, before exposing the reader to arithmetic laws of limits and teaching
+    the reader how to find limits directly. Other than direct evaluation of limits, the squeeze theorem and
+    L'H\^{o}pital's rule are introduced.
+    We also discuss continuity, and the intermediate value theorem.
+    The chapter concludes with differentiation from first principles,
+    before leading to Chapter 5 which discusses improper integrals and their evaluation.
+
+    We next look at reduction formulae in Chapter 6, before moving to the summation of a series using
+    the method of differences in Chapter 7. In Chapter 8, the following inequalities are introduced,
+    along with an illustration to help the reader explain why the inequality is true:
+    \begin{enumerate}
+        \item AM-GM (arithmetic mean-geometric mean) inequality
+        \item Cauchy-Schwarz inequality
+        \item Triangle inequality
+    \end{enumerate}
+    (Note that inequalities 2 and 3 will only be discussed in an $n$-dimensional Euclidean space $\mathbb{R}^n$.)
+
+    The penultimate chapter of this book, Chapter 9, introduces combinatorics. Namely, the Inclusion-Exclusion Principle
+    is discussed. Finally, we conclude with Chapter 10, modular arithmetic.
+
+    This book is intended to serve as a supplementary text, which you can study along with your teachers' notes.
+    I wish you the best of luck in your one-year journey of H3 Mathematics.
+
+    \begin{flushright}
+        \textit{Gerard Sayson}
+    \end{flushright}
+\end{preface}
